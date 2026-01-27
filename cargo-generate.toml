@@ -1,0 +1,2 @@
+[template]
+exclude = [ "cliff.toml", "_typos.toml", "deny.toml", "README.md"]

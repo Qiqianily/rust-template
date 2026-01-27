@@ -1,0 +1,10 @@
+[package]
+name = "template"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+authors = ["<Qiqianily> <Joedian@163.com>"]
+description = "A template for Rust projects"
+
+[dependencies]
+anyhow = "1.0"
