@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package greeter;
+
+// 消息定义
+
+// 发送请求的参数为：名字
+message GreeterRequest {
+  string name = 1;
+}
+
+// 发送请求的返回值为：问候语
+message GreeterResponse {
+  string message = 1;
+}
+
+// 定义服务接口
+service GreeterService {
+  // 发送请求
+  rpc Greeter(GreeterRequest) returns (GreeterResponse);
+}

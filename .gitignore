@@ -2,7 +2,7 @@
 .DS_Store
 .idea/
 .env
-dev.toml
+dev.yml
 logs/
 dev.http
 prod.http
