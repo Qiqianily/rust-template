@@ -11,6 +11,7 @@ struct ConnectionStats {
     active_connections: i64,
     idle_connections: i64,
 }
+
 /// 使用配置初始化数据库
 pub async fn init_database_pool_with_config(config: &DbConfig) -> anyhow::Result<PgPool> {
     let pool = PgPoolOptions::new()
