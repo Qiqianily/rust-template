@@ -5,11 +5,15 @@ use crate::{
         GetExplanationByIdRequest, GetExplanationByIdResponse,
         explanation_hu_service_server::ExplanationHuService,
     },
-    service_impl::model::ExplanationHu,
+    utils::{convert::datetime_to_timestamp, serializer_items::deserialize_explanation_items},
 };
-use sqlx::PgPool;
+use sqlx::{
+    PgPool,
+    types::chrono::{DateTime, Utc},
+};
 
 use tonic::{Request, Response, Status};
+use uuid::Uuid;
 
 /// 内部数据状态
 #[derive(Debug, Clone)]
@@ -45,13 +49,22 @@ impl ExplanationHuService for ExplanationHuServiceImpl {
     ) -> Result<Response<GetExplanationByIdResponse>, Status> {
         let id = request.into_inner().id;
         // 查询数据库
-        let explanation: ExplanationHu = sqlx::query_as(
+        let row: (i32, Uuid, serde_json::Value, Vec<String>, DateTime<Utc>)  = sqlx::query_as(
                 "SELECT treatise_id as id, uuid, explanation, summary, created_at FROM explain_hu WHERE treatise_id = $1",
             )
             .bind(id)
             .fetch_one(self.inner.pool)
-            .await.map_err(|e| Status::internal(e.to_string()))?;
+            .await.map_err(|_e| Status::not_found("Data not found"))?;
+        let explanation_items = deserialize_explanation_items(row.2).unwrap();
+        let created_at = datetime_to_timestamp(row.4);
+        let result = GetExplanationByIdResponse {
+            treatise_id: row.0,
+            uuid: row.1.to_string(),
+            explanation_items,
+            summary: row.3,
+            created_at: Some(created_at),
+        };
         // 返回结果
-        Ok(Response::new(explanation.into()))
+        Ok(Response::new(result))
     }
 }

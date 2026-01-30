@@ -19,7 +19,7 @@ message ExplanationItem {
 message GetExplanationByIdResponse {
   int32 treatise_id = 1;
   string uuid = 2;
-  repeated ExplanationItem explanation = 3;
+  repeated ExplanationItem explanation_items = 3;
   repeated string summary = 4;
   google.protobuf.Timestamp created_at = 5;
 }

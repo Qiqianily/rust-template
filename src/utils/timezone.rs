@@ -1,5 +1,4 @@
-use sqlx::types::chrono;
-use sqlx::types::chrono::{DateTime, FixedOffset, NaiveDateTime, Utc};
+use sqlx::types::chrono::{self, DateTime, FixedOffset, NaiveDateTime, Utc};
 
 // Custom FormatTime implementation that formats timestamps
 // in the format of "2022-01-01T00:00:00.000"
