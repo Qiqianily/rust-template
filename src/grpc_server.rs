@@ -24,7 +24,7 @@ async fn main() -> anyhow::Result<()> {
     //
     // 1. 读取配置信息
     let config = AppConfig::load()?;
-    let log_level = config.base().log_level();
+    let log_level = config.grpc_config().log_level();
     // 2. 初始化日志
     if config.is_log_file() {
         let _guard = init_logger_with_file(log_level).await?;
@@ -37,7 +37,7 @@ async fn main() -> anyhow::Result<()> {
     // 4. 创建服务
     let srv = ExplanationHuServiceImpl::new(get_global_database_pool());
     // 服务地址
-    let addr = format!("[::1]:{}", config.base().port()).parse()?;
+    let addr = format!("[::1]:{}", config.grpc_config().port()).parse()?;
     tracing::info!("Starting UserService on {}", addr);
     Server::builder()
         .add_service(GreeterServiceServer::new(greeter_service))

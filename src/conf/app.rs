@@ -1,5 +1,6 @@
-use crate::conf::base::BaseConfig;
-use crate::conf::database::DbConfig;
+use crate::conf::grpc::GrpcConfig;
+use crate::conf::{database::DbConfig, http::HttpConfig};
+
 use crate::conf::redis::RedisConfig;
 use anyhow::Context;
 use clap::Parser;
@@ -22,7 +23,8 @@ pub struct CmdOpts {
 // Define the application Config struct
 #[derive(Debug, serde::Deserialize)]
 pub struct AppConfig {
-    base: BaseConfig,
+    http: HttpConfig,
+    grpc: GrpcConfig,
     database: DbConfig,
     redis: RedisConfig,
     log_file: bool,
@@ -68,8 +70,11 @@ impl AppConfig {
         }
     }
 
-    pub fn base(&self) -> &BaseConfig {
-        &self.base
+    pub fn http_config(&self) -> &HttpConfig {
+        &self.http
+    }
+    pub fn grpc_config(&self) -> &GrpcConfig {
+        &self.grpc
     }
     pub fn database(&self) -> &DbConfig {
         &self.database

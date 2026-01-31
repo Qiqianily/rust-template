@@ -7,7 +7,7 @@ use template::{
 async fn main() -> anyhow::Result<()> {
     let config = AppConfig::load()?;
     eprintln!("config:{:?}", config);
-    let log_level = config.base().log_level();
+    let log_level = config.grpc_config().log_level();
     if config.is_log_file() {
         println!("log_file");
         let _guard = init_logger_with_file(log_level).await?;

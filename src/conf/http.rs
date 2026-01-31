@@ -1,11 +1,11 @@
 /// 服务端口和日志信息相关配置
 #[derive(Debug, serde::Deserialize)]
-pub struct BaseConfig {
+pub struct HttpConfig {
     port: u16,
     log_level: String,
     allowed_hosts: Option<Vec<String>>,
 }
-impl BaseConfig {
+impl HttpConfig {
     pub fn port(&self) -> u16 {
         self.port
     }
