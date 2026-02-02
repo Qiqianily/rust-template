@@ -27,7 +27,7 @@ pub struct AppConfig {
     grpc: GrpcConfig,
     database: DbConfig,
     redis: RedisConfig,
-    log_file: bool,
+    is_dev: bool,
 }
 impl AppConfig {
     // load the config file
@@ -82,7 +82,7 @@ impl AppConfig {
     pub fn redis(&self) -> &RedisConfig {
         &self.redis
     }
-    pub fn is_log_file(&self) -> bool {
-        self.log_file
+    pub fn is_dev(&self) -> bool {
+        self.is_dev
     }
 }
