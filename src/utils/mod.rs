@@ -1,4 +1,5 @@
 pub mod convert;
+pub mod crypto;
 pub mod latency;
 pub mod serializer_items;
 pub mod time_serializer;

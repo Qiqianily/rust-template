@@ -25,6 +25,10 @@ pub enum ApiError {
     PathError(#[from] PathRejection),
     #[error("Body 参数错误: {0}")]
     JsonError(#[from] JsonRejection),
+    #[error("密码加密时出错：{0}")]
+    Argon2HashingError(#[from] argon2::password_hash::Error),
+    #[error("密码加密时出错：{0}")]
+    Argon2HashingPHCError(#[from] argon2::password_hash::phc::Error),
     #[error("服务端错误: {0}")]
     Internal(#[from] anyhow::Error),
 }
@@ -41,7 +45,9 @@ impl ApiError {
             | ApiError::PathError(_)
             | ApiError::JsonError(_)
             | ApiError::InvalidJson(_) => axum::http::StatusCode::BAD_REQUEST,
-            ApiError::Internal(_) => axum::http::StatusCode::INTERNAL_SERVER_ERROR,
+            ApiError::Internal(_)
+            | ApiError::Argon2HashingError(_)
+            | ApiError::Argon2HashingPHCError(_) => axum::http::StatusCode::INTERNAL_SERVER_ERROR,
         }
     }
 }
